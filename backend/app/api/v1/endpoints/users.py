@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.api.deps import get_current_active_user
 from app.db.session import get_db
 from app.repositories.user import UserRepository
-from app.schemas.user import UserGoalsUpdate, UserProfileResponse, UserProfileUpdate
+from app.schemas.user import UserProfileResponse, UserProfileUpdate
 from app.models.user import User
 
 
@@ -28,16 +28,3 @@ async def update_me(
     data = payload.model_dump(exclude_unset=True)
     updated = await repo.update(current_user, data)
     return updated
-
-
-@router.put("/me/goals", response_model=UserProfileResponse)
-async def update_goals(
-    payload: UserGoalsUpdate,
-    db: AsyncSession = Depends(get_db),
-    current_user: User = Depends(get_current_active_user),
-):
-    repo = UserRepository(db)
-    data = payload.model_dump(exclude_unset=True)
-    updated = await repo.update(current_user, data)
-    return updated
-

@@ -1,6 +1,6 @@
 from .auth import LoginRequest, RefreshRequest, RegisterRequest, TokenResponse
 from .common import MessageResponse, PaginatedResponse
-from .user import UserGoalsUpdate, UserProfileResponse, UserProfileUpdate
+from .user import UserProfileResponse, UserProfileUpdate
 
 
 __all__ = [
@@ -12,6 +12,5 @@ __all__ = [
     "MessageResponse",
     "UserProfileResponse",
     "UserProfileUpdate",
-    "UserGoalsUpdate",
 ]
 
