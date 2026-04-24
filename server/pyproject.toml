@@ -13,8 +13,8 @@ dependencies = [
     "pydantic-settings",
     "pydantic[email]",
     "python-jose[cryptography]",
-    "passlib[bcrypt]",
     "python-multipart",
+    "bcrypt>=5.0.0",
 ]
 
 [project.optional-dependencies]

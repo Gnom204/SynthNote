@@ -95,14 +95,11 @@ def create_app() -> FastAPI:
     app = FastAPI(
         title=settings.APP_NAME,
         version=settings.APP_VERSION,
-        description="KBJU Diary API",
+        description="SynthNote API",
         lifespan=lifespan,
         openapi_tags=[
             {"name": "auth", "description": "Authentication and token management"},
             {"name": "users", "description": "User profile and goals"},
-            {"name": "food", "description": "Food catalog and nutrition diary inputs"},
-            {"name": "diary", "description": "Food diary and daily summaries"},
-            {"name": "workout", "description": "Workout sessions and exercise catalog"},
         ],
     )
 
