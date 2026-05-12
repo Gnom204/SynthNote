@@ -1,20 +1,39 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import apiClient from '../apiClient'
+import { useAuth } from '../AuthContext'
 
 function Register() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState('')
+  const navigate = useNavigate()
+  const { login } = useAuth()
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
+    setError('')
+
     if (password !== confirmPassword) {
-      alert('Пароли не совпадают')
+      setError('Пароли не совпадают')
       return
     }
-    // TODO: Implement registration logic
-    console.log('Register:', { name, email, password })
+
+    setIsLoading(true)
+    try {
+      const response = await apiClient.register(email, password, name)
+      // Use auth context to handle login
+      login(response.access_token)
+      // Redirect to home or dashboard
+      navigate('/')
+    } catch (err) {
+      setError(err.message || 'Ошибка регистрации')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -25,6 +44,8 @@ function Register() {
             <h1>Регистрация</h1>
             <p>Создайте новый аккаунт</p>
           </div>
+
+          {error && <div className="error-message" style={{ color: 'red', marginBottom: '1rem' }}>{error}</div>}
 
           <form onSubmit={handleSubmit} className="auth-form">
             <div className="form-group">
@@ -75,8 +96,8 @@ function Register() {
               />
             </div>
 
-            <button type="submit" className="auth-button">
-              Зарегистрироваться
+            <button type="submit" className="auth-button" disabled={isLoading}>
+              {isLoading ? 'Регистрация...' : 'Зарегистрироваться'}
             </button>
           </form>
 

@@ -1,14 +1,32 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import apiClient from '../apiClient'
+import { useAuth } from '../AuthContext'
 
 function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState('')
+  const navigate = useNavigate()
+  const { login } = useAuth()
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    // TODO: Implement login logic
-    console.log('Login:', { email, password })
+    setError('')
+    setIsLoading(true)
+
+    try {
+      const response = await apiClient.login(email, password)
+      // Use auth context to handle login
+      login(response.access_token)
+      // Redirect to home
+      navigate('/')
+    } catch (err) {
+      setError(err.message || 'Ошибка входа')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -19,6 +37,8 @@ function Login() {
             <h1>Вход в аккаунт</h1>
             <p>Добро пожаловать обратно!</p>
           </div>
+
+          {error && <div className="error-message" style={{ color: 'red', marginBottom: '1rem' }}>{error}</div>}
 
           <form onSubmit={handleSubmit} className="auth-form">
             <div className="form-group">
@@ -45,8 +65,8 @@ function Login() {
               />
             </div>
 
-            <button type="submit" className="auth-button">
-              Войти
+            <button type="submit" className="auth-button" disabled={isLoading}>
+              {isLoading ? 'Вход...' : 'Войти'}
             </button>
           </form>
 
