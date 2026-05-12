@@ -6,24 +6,39 @@ function Header() {
 
   return (
     <header className="app-header">
-      <Link to="/" className="header-title">
-        SynthNote
-      </Link>
-      <nav className="header-nav">
-        {isAuthenticated ? (
-          <>
-            <span className="user-info">Привет, {user?.full_name || user?.email}</span>
-            <button onClick={logout} className="logout-button">
-              Выйти
-            </button>
-          </>
-        ) : (
-          <>
-            <Link to="/login" className="nav-link">Войти</Link>
-            <Link to="/register" className="nav-link register">Регистрация</Link>
-          </>
-        )}
-      </nav>
+      <div className="header-content">
+        <Link to="/" className="header-title">
+          <span className="logo-icon">📝</span>
+          SynthNote
+        </Link>
+        <nav className="header-nav">
+          {isAuthenticated ? (
+            <>
+              <div className="user-info">
+                <span className="user-avatar">👤</span>
+                <span className="user-greeting">
+                  {user?.full_name ? `Привет, ${user.full_name}` : `Привет, ${user?.email}`}
+                </span>
+              </div>
+              <button onClick={logout} className="logout-button">
+                <span className="logout-icon">🚪</span>
+                Выйти
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/login" className="nav-link login-link">
+                <span className="login-icon">🔐</span>
+                Войти
+              </Link>
+              <Link to="/register" className="nav-link register register-link">
+                <span className="register-icon">✨</span>
+                Регистрация
+              </Link>
+            </>
+          )}
+        </nav>
+      </div>
     </header>
   )
 }
