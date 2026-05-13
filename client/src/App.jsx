@@ -1,24 +1,29 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import './App.css'
-import Header from './components/Header'
-import Login from './components/Login'
-import Register from './components/Register'
-import NotesPage from './components/NotesPage'
-import Chat from './components/Chat'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider } from './AuthContext'
+import Dashboard from './pages/Dashboard'
+import SignUp from './pages/SignUp'
+import RegisterPage from './pages/RegisterPage'
+import LoginPage from './pages/LoginPage'
+import NoteWorkspace from './pages/NoteWorkspace'
+import NotePanel from './pages/NotePanel'
+import QuizPanel from './pages/QuizPanel'
 
 function App() {
   return (
     <AuthProvider>
-      <Router>
-        <Header />
+      <BrowserRouter>
         <Routes>
-          <Route path="/" element={<NotesPage />} />
-          <Route path="/chat/:id" element={<Chat />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/notes/:noteId" element={<NoteWorkspace />}>
+            <Route index element={<NotePanel />} />
+            <Route path="quiz" element={<QuizPanel />} />
+          </Route>
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
-      </Router>
+      </BrowserRouter>
     </AuthProvider>
   )
 }

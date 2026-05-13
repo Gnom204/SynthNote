@@ -4,11 +4,11 @@
 
 ### Docker Compose
 
-1. В корне `backend` подготовь файл `.env` (уже есть `.env.example`).
-2. Выполни:
-   - `docker-compose up --build`
-3. Проверка:
-   - `http://localhost:8000/health`
+Запуск всего приложения (Postgres, API, фронт через nginx) — из **корня репозитория** `synth-note`:
+
+1. Файл `.env` в корне репозитория (рядом с `docker-compose.yml`). Учётные данные БД в нём должны совпадать с тем, с чем **первый раз** инициализировался том Postgres; при смене пользователя/БД выполни `docker compose down -v` и подними снова.
+2. `docker compose up --build`
+3. Веб: `http://localhost:8080`, health API: `http://localhost:8000/health`
 
 ### Локально через uv
 

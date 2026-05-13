@@ -22,7 +22,7 @@ REFRESH_COOKIE_NAME = "refresh_token"
 
 
 def _secure_cookie() -> bool:
-    return True
+    return settings.ENVIRONMENT != "development"
 
 
 def _refresh_cookie_max_age_seconds() -> int:
