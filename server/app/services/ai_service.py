@@ -86,6 +86,7 @@ Rules:
 - "options" length must always be 4.
 - "correct_index" must reference the correct option.
 - Base everything strictly on the provided text.
+- Answer in Russia
 
 Text:
 ---
